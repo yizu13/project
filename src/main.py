@@ -7,6 +7,11 @@ def main(page: ft.Page):
     #screen definition 
     page.window.full_screen = False
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+
+    page.window.min_width = 800
+    page.window.min_height= 600
+    page.window.width = 800
+    page.window.height= 600
     
     main_button(page)
     
