@@ -20,8 +20,15 @@ def some_cards(page, count):
         plus_button_from_intensity = ft.IconButton(ft.icons.ADD, on_click=lambda e: e_catalog.plus_click(e,page,text_field_intensity,Select_increment_mode,minus_button_from_intensity, 100, setting_intensity_button))
         minus_button_from_intensity = ft.IconButton(ft.icons.REMOVE, on_click=lambda e: e_catalog.minus_click(e,page,text_field_intensity,Select_increment_mode,plus_button_from_intensity, 100, setting_intensity_button))
 
-        setting_time_button = ft.ElevatedButton("Configurar tiempo", on_click=lambda e: e_catalog.send_time(e, page, plus_button_from_time, minus_button_from_time,text_field_time))
-        setting_intensity_button = ft.ElevatedButton("Configurar intensidad", on_click=lambda e: e_catalog.send_intensity(e, page, plus_button_from_intensity,  minus_button_from_intensity, text_field_intensity))
+        setting_time_button = ft.ElevatedButton("Configurar tiempo", on_click=lambda e: e_catalog.send_time(e, page, plus_button_from_time, minus_button_from_time,text_field_time, start_button))
+        setting_intensity_button = ft.ElevatedButton("Configurar intensidad", on_click=lambda e: e_catalog.send_intensity(e, page, plus_button_from_intensity,  minus_button_from_intensity, text_field_intensity, start_button))
+
+        level_1 = ft.ElevatedButton("Nivel 1", on_click=lambda e: e_catalog.level_1_(e,page,level_2,level_3,start_button), width= 200, height= 100)
+        level_2 = ft.ElevatedButton("Nivel 2", on_click=lambda e: e_catalog.level_2_(e,page,level_1,level_3,start_button), width= 200, height= 100)
+        level_3 = ft.ElevatedButton("Nivel 3", on_click=lambda e: e_catalog.level_3_(e,page,level_1,level_2,start_button), width= 200, height= 100)
+
+
+        start_button = ft.ElevatedButton("Empezar", on_click=lambda e: e_catalog.button_clicked(e,page), width= 200, height= 300, disabled= True)
 
         content_cards = {'card_1': [
                                 ft.Row(
@@ -54,12 +61,27 @@ def some_cards(page, count):
                             ],
                             alignment=ft.MainAxisAlignment.CENTER,
                         )
-                        ],'card_2': [
+                        ],
+                        'card_2': [
                             ft.Row(
-                            [ft.ElevatedButton("Empezar", on_click=lambda e: e_catalog.button_clicked(e,page), width= 200, height= 300)],
-                            alignment=ft.MainAxisAlignment.CENTER,
+                            [start_button],
+                            alignment=ft.MainAxisAlignment.CENTER
                         )
-                        ],'card_3': []}
+                        ],
+                        'card_3': [
+                              ft.Row(
+                            [level_1],
+                            alignment=ft.MainAxisAlignment.CENTER
+                        ), 
+                            ft.Row(
+                            [level_2],
+                            alignment=ft.MainAxisAlignment.CENTER
+                        ), 
+                            ft.Row(
+                            [level_3],
+                            alignment=ft.MainAxisAlignment.CENTER
+                        )]
+                    }
         
         for i in range(1,count + 1):
             some_cards.append(

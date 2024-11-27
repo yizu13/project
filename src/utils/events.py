@@ -7,6 +7,9 @@ class EventCatalog:
         self.count = 0
         self.check_for_send_time = False
         self.check_for_send_intensity = False
+        self.check_level_1 = False
+        self.check_level_2 = False
+        self.check_level_3 = False
 
     def button_clicked(self,e,page):
         print("yupi")
@@ -79,13 +82,16 @@ class EventCatalog:
             minus_button_from_time.update()
             page.update()
 
-    def send_time(self, e, page, plus_button_from_time, minus_button_from_time,text_field_time):
+    def send_time(self, e, page, plus_button_from_time, minus_button_from_time,text_field_time,start_button):
+        self.plus_button_from_time = plus_button_from_time
+        self.minus_button_from_time = minus_button_from_time    
         if (self.check_for_send_time == True):
             plus_button_from_time.disabled = False
             plus_button_from_time.update()
             minus_button_from_time.disabled = False
             minus_button_from_time.update()
             self.check_for_send_time = False
+            self.check_start_button(page,start_button)
             page.update()
             return
 
@@ -96,16 +102,20 @@ class EventCatalog:
             minus_button_from_time.update()
             self.check_for_send_time = True
             print(f"time sent: {text_field_time.value}") # en esta parte se pondrá el enlace para enviar los datos al arduino
+            self.check_start_button(page,start_button)
             page.update()
             return
         
-    def send_intensity(self, e, page, plus_button_from_intensity, minus_button_from_intensity,text_field_intensity):
+    def send_intensity(self, e, page, plus_button_from_intensity, minus_button_from_intensity,text_field_intensity,start_button):
+        self.plus_button_from_intensity = plus_button_from_intensity
+        self.minus_button_from_intensity = minus_button_from_intensity
         if (self.check_for_send_intensity == True):
             plus_button_from_intensity.disabled = False
             plus_button_from_intensity.update()
             minus_button_from_intensity.disabled = False
             minus_button_from_intensity.update()
             self.check_for_send_intensity = False
+            self.check_start_button(page,start_button)
             page.update()
             return
 
@@ -116,15 +126,98 @@ class EventCatalog:
             minus_button_from_intensity.update()
             self.check_for_send_intensity = True
             print(f"intensity sent: {text_field_intensity.value}") # en esta parte se pondrá el enlace para enviar los datos al arduino
+            self.check_start_button(page,start_button)
+            page.update()
+            return
+    
+    def level_1_(self,e,page, level_2, level_3,start_button):
+        self.level_2 = level_2
+        self.level_3 = level_3
+        self.level_1 = e.control
+        if (self.check_level_1  == True):
+            level_2.disabled = False
+            level_2.update()
+            level_3.disabled = False
+            level_3.update()
+            self.check_level_1 = False
+            self.check_start_button(page,start_button)
+            page.update()
+            return
+
+        if (self.check_level_1 == False):
+            level_2.disabled = True
+            level_2.update()
+            level_3.disabled = True
+            level_3.update()
+            self.check_level_1 = True
+            print("Level 1 activated") # en esta parte se pondrá el enlace para enviar los datos al arduino
+            self.check_start_button(page,start_button)
+            page.update()
+            return
+
+
+
+    def level_2_(self,e,page, level_1, level_3,start_button):
+        self.level_1 = level_1
+        self.level_2 = e.control
+        self.level_3 = level_3
+        if (self.check_level_2  == True):
+            level_1.disabled = False
+            level_1.update()
+            level_3.disabled = False
+            level_3.update()
+            self.check_level_2 = False
+            self.check_start_button(page,start_button)
+            page.update()
+            return
+
+        if (self.check_level_2 == False):
+            level_1.disabled = True
+            level_1.update()
+            level_3.disabled = True
+            level_3.update()
+            self.check_level_2 = True
+            print("Level 2 activated") # en esta parte se pondrá el enlace para enviar los datos al arduino
+            self.check_start_button(page,start_button)
+            page.update()
+            return
+
+
+    def level_3_(self,e,page, level_1, level_2,start_button):
+        self.level_1 = level_1
+        self.level_2 = level_2
+        self.level_3 = e.control
+        if (self.check_level_3  == True):
+            level_1.disabled = False
+            level_1.update()
+            level_2.disabled = False
+            level_2.update()
+            self.check_level_3 = False
+            self.check_start_button(page,start_button)
+            page.update()
+            return
+
+        if (self.check_level_3 == False):
+            level_1.disabled = True
+            level_1.update()
+            level_2.disabled = True
+            level_2.update()
+            self.check_level_3 = True
+            print("Level 3 activated") # en esta parte se pondrá el enlace para enviar los datos al arduino
+            self.check_start_button(page,start_button)
             page.update()
             return
         
-
-        
-
-
-
-
+    def check_start_button(self,page,start_button):
+        start_button.disabled = True
+        page.update()
+        try:
+            if (self.level_1.disabled == True or self.level_2.disabled == True or self.level_3.disabled == True ) and (self.plus_button_from_time.disabled == True) and (self.minus_button_from_time.disabled == True) and (self.plus_button_from_intensity.disabled == True) and (self.minus_button_from_intensity.disabled == True):
+                start_button.disabled = False
+                page.update()
+                return
+        except:
+            None
 
 
 
