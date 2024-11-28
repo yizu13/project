@@ -1,5 +1,5 @@
 import flet as ft
-from utils.events import e_catalog
+from src.utils.events import e_catalog
 
 def some_cards(page, count):
         some_cards = []

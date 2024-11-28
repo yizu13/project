@@ -1,5 +1,5 @@
 import flet as ft
-from controls.Cards_and_buttons import some_cards
+from src.controls.Cards_and_buttons import some_cards
 
 def main_button(page):
     # Add controls to the page
