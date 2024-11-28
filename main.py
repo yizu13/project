@@ -1,5 +1,6 @@
 import flet as ft
 from src.pages.Home_page import main_button
+from src.pages.test_information import test_information
 
 def main(page: ft.Page):
 
@@ -15,6 +16,8 @@ def main(page: ft.Page):
     page.window.height= 600
     
     main_button(page)
+    
+    test_information(page)
     
     page.update()
     

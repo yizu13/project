@@ -10,6 +10,11 @@ class EventCatalog:
         self.check_level_1 = False
         self.check_level_2 = False
         self.check_level_3 = False
+        self.patient_name = None
+        self.patient_age = None
+        self.patient_weight = None
+        self.doctor_name = None
+        self.confirm_button = None
 
     def button_clicked(self,e,page):
         print("yupi")
@@ -218,8 +223,49 @@ class EventCatalog:
                 return
         except:
             None
+            
+            
+    def confirm_button_from_information_page(self,e,page,information_window):
+        print(self.patient_name)  
+        print(self.patient_age)
+        print(self.patient_weight)
+        print(self.doctor_name)
+        page.close(information_window)
+        page.update()
+        
+    def save_patient_name(self,e,confirm_button,page):
+        self.patient_name = e.control.value
+        if (self.patient_name == ""):
+            self.patient_name = None
+        self.check_confirm_button(confirm_button,page)
+        
+    def save_patient_age(self,e,confirm_button,page):
+        self.patient_age = e.control.value
+        if (self.patient_age == ""):
+            self.patient_age = None
+        self.check_confirm_button(confirm_button,page)
+        
+    def save_patient_weight(self,e,confirm_button,page):
+        self.patient_weight = e.control.value
+        if (self.patient_weight == ""):
+            self.patient_weight = None
+        self.check_confirm_button(confirm_button,page)
+        
+    def save_doctor_name(self,e,confirm_button,page):
+        self.doctor_name = e.control.value
+        if (self.doctor_name == ""):
+            self.doctor_name = None
+        self.check_confirm_button(confirm_button,page)
+    
 
-
+    def check_confirm_button(self,confirm_button,page): # esto no es un evento
+        self.confirm_button = confirm_button
+        if (self.patient_name != None) and (self.patient_age != None) and (self.patient_weight != None) and (self.doctor_name != None):
+            self.confirm_button.disabled = False
+        else: 
+            self.confirm_button.disabled = True
+        
+        page.update()
 
 
 

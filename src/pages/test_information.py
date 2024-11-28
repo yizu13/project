@@ -1,0 +1,27 @@
+import flet as ft
+from src.controls.information_controls_content import text_fields
+from src.utils.events import e_catalog
+
+
+def test_information(page):
+    confirm_button = ft.TextButton("Confirmar", on_click=lambda e: e_catalog.confirm_button_from_information_page(e,page,dlg_modal))
+    page_important_content = text_fields("present", confirm_button,page)
+    
+    # Add temporary page
+    dlg_modal = ft.AlertDialog(
+        modal=True,
+        title=ft.Text("  Informaciones importantes  "),
+        content= ft.Container(
+            content= 
+                page_important_content,
+                width=200,
+                height=200,
+                padding=5,
+                ),
+        actions=[# here you will put the fuctions of controls 
+            confirm_button
+        ],
+        actions_alignment=ft.MainAxisAlignment.END,
+    )
+    e_catalog.check_confirm_button(confirm_button,page)
+    page.open(dlg_modal)
