@@ -9,6 +9,7 @@ def main(page: ft.Page):
     #screen definition 
     page.window.full_screen = False
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.window.always_on_top = False
 
     page.window.min_width = 800
     page.window.min_height= 600
@@ -22,5 +23,7 @@ def main(page: ft.Page):
     page.update()
     
 
-
-ft.app(main)
+def start():
+    return ft.app(main)
+    
+start_page = start()

@@ -1,6 +1,7 @@
 import flet as ft
 import time
 
+
 class EventCatalog:
     def __init__(self):
         self.is_pressing = False
@@ -15,12 +16,25 @@ class EventCatalog:
         self.patient_weight = None
         self.doctor_name = None
         self.confirm_button = None
+        self.information_window = None
+        self.check_start = False
 
-    def button_clicked(self,e,page):
-        print("yupi")
-        e.control.disabled = False
-        e.control.update()
-        page.update()
+    def button_clicked(self,e,page,text_checking_for_button):
+        self.text_checking_for_button = text_checking_for_button
+        if (self.check_start == False):
+            print("Prueba comenzada")
+            text_checking_for_button.value = "Prueba comenzada"
+            text_checking_for_button.color= "blue200"
+            e.control.update()
+            page.update()
+            self.check_start = True
+        elif (self.check_start == True):
+            print("Prueba pausada")
+            text_checking_for_button.value = "Prueba pausada"
+            text_checking_for_button.color= "red200"
+            page.update()
+            e.control.update()
+            self.check_start = False
     
         
     def minus_click(self,e,page,change_value_time,Select_increment_mode,plus_button_from_time, max,setting_button):
@@ -88,6 +102,7 @@ class EventCatalog:
             page.update()
 
     def send_time(self, e, page, plus_button_from_time, minus_button_from_time,text_field_time,start_button):
+        self.text_field_time = text_field_time
         self.plus_button_from_time = plus_button_from_time
         self.minus_button_from_time = minus_button_from_time    
         if (self.check_for_send_time == True):
@@ -112,6 +127,7 @@ class EventCatalog:
             return
         
     def send_intensity(self, e, page, plus_button_from_intensity, minus_button_from_intensity,text_field_intensity,start_button):
+        self.text_field_intensity = text_field_intensity
         self.plus_button_from_intensity = plus_button_from_intensity
         self.minus_button_from_intensity = minus_button_from_intensity
         if (self.check_for_send_intensity == True):
@@ -214,6 +230,7 @@ class EventCatalog:
             return
         
     def check_start_button(self,page,start_button):
+        self.start_button = start_button
         start_button.disabled = True
         page.update()
         try:
@@ -226,36 +243,52 @@ class EventCatalog:
             
             
     def confirm_button_from_information_page(self,e,page,information_window,fieldtext_doctor,fieldtext_patient):
+        self.information_window = information_window
         fieldtext_doctor.value = self.doctor_name
         fieldtext_patient.value =self.patient_name
-        print(fieldtext_patient.value)
         print(self.patient_name)  
         print(self.patient_age)
         print(self.patient_weight)
         print(self.doctor_name)
-        page.close(information_window)
         page.update()
+        page.close(self.information_window)
+        
+    def modify_information_function(self,e,page):
+        if(self.information_window != None):
+            page.open(self.information_window)
+            page.update()
+        else:
+            None
+        self.text_checking_for_button.value = "Prueba pausada"
+        self.text_checking_for_button.color= "red200"
+        page.update()
+        e.control.update()
+        self.check_start = False
         
     def save_patient_name(self,e,confirm_button,page):
         self.patient_name = e.control.value
+        self.patient_name_value = e.control
         if (self.patient_name == ""):
             self.patient_name = None
         self.check_confirm_button(confirm_button,page)
         
     def save_patient_age(self,e,confirm_button,page):
         self.patient_age = e.control.value
+        self.patient_age_value = e.control
         if (self.patient_age == ""):
             self.patient_age = None
         self.check_confirm_button(confirm_button,page)
         
     def save_patient_weight(self,e,confirm_button,page):
         self.patient_weight = e.control.value
+        self.patient_weight_value = e.control
         if (self.patient_weight == ""):
             self.patient_weight = None
         self.check_confirm_button(confirm_button,page)
         
     def save_doctor_name(self,e,confirm_button,page):
         self.doctor_name = e.control.value
+        self.doctor_value = e.control
         if (self.doctor_name == ""):
             self.doctor_name = None
         self.check_confirm_button(confirm_button,page)
@@ -269,6 +302,40 @@ class EventCatalog:
             self.confirm_button.disabled = True
         
         page.update()
+    
+    def finish_test(self,e,page):
+        self.patient_name_value.value = None
+        self.patient_age_value.value = None
+        self.patient_weight_value.value = None
+        self.doctor_value.value = None
+        page.open(self.information_window)
+        try:
+            self.level_1.disabled = False #Aquí se mandará al arduino a desactivar bobina 1
+            self.level_2.disabled = False #Aquí se mandará al arduino a desactivar bobina 2
+            self.level_3.disabled = False #Aquí se mandará al arduino a desactivar bobina 3
+            self.text_field_time.value = "1" #Se le mandará este valor al arduino
+            self.text_field_intensity.value = "1" #Se le mandará este valor al arduino
+            self.plus_button_from_intensity.disabled = False
+            self.minus_button_from_intensity.disabled = False
+            self.plus_button_from_time.disabled = False
+            self.minus_button_from_time.disabled = False
+            self.check_for_send_intensity = False
+            self.check_for_send_time = False 
+            self.check_level_1 = False
+            self.check_level_2 = False
+            self.check_level_3 = False
+            self.start_button.disabled = True
+            self.text_checking_for_button.value = "Prueba pausada"
+            self.text_checking_for_button.color= "red200"
+            page.update()
+            e.control.update()
+            self.check_start = False
+        except:
+            None
+        page.update()
+        
+        
+    
 
 
 
