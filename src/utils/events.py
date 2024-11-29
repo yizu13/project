@@ -225,7 +225,10 @@ class EventCatalog:
             None
             
             
-    def confirm_button_from_information_page(self,e,page,information_window):
+    def confirm_button_from_information_page(self,e,page,information_window,fieldtext_doctor,fieldtext_patient):
+        fieldtext_doctor.value = self.doctor_name
+        fieldtext_patient.value =self.patient_name
+        print(fieldtext_patient.value)
         print(self.patient_name)  
         print(self.patient_age)
         print(self.patient_weight)
@@ -266,6 +269,7 @@ class EventCatalog:
             self.confirm_button.disabled = True
         
         page.update()
+
 
 
 

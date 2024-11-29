@@ -1,5 +1,5 @@
 import flet as ft
-from src.pages.Home_page import main_button
+from src.pages.Home_page import page_home_class_
 from src.pages.test_information import test_information
 
 def main(page: ft.Page):
@@ -15,7 +15,7 @@ def main(page: ft.Page):
     page.window.width = 800
     page.window.height= 600
     
-    main_button(page)
+    page_home_class_.main_button(page) 
     
     test_information(page)
     
