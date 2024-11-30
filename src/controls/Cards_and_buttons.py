@@ -28,8 +28,8 @@ def some_cards(page, count):
         level_3 = ft.ElevatedButton("Nivel 3", on_click=lambda e: e_catalog.level_3_(e,page,level_1,level_2,start_button), width= 200, height= 100)
 
 
-        start_button = ft.ElevatedButton("Empezar", on_click=lambda e: e_catalog.button_clicked(e,page,text_checking_for_button), width= 200, height= 300, disabled= True)
-        text_checking_for_button = ft.Text("prueba pausada", color="red200",theme_style=ft.TextThemeStyle.BODY_LARGE, weight=ft.FontWeight.W_700)
+        start_button = ft.ElevatedButton(text="Habilitar", on_click=lambda e: e_catalog.button_clicked(e,page), width= 200, height= 100, disabled= True)
+        text_checking_for_button = ft.Text("Estatus de la terapia", color="red800",theme_style=ft.TextThemeStyle.BODY_LARGE, weight=ft.FontWeight.W_700)
 
         content_cards = {'card_1': [
                                 ft.Row(
@@ -65,11 +65,11 @@ def some_cards(page, count):
                         ],
                         'card_2': [
                             ft.Row(
-                            [start_button],
+                            [text_checking_for_button],
                             alignment=ft.MainAxisAlignment.CENTER
                         ),  
                             ft.Row(
-                            [text_checking_for_button],
+                            [start_button],
                             alignment=ft.MainAxisAlignment.CENTER
                         )
                         ],

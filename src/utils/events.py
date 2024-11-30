@@ -19,19 +19,16 @@ class EventCatalog:
         self.information_window = None
         self.check_start = False
 
-    def button_clicked(self,e,page,text_checking_for_button):
-        self.text_checking_for_button = text_checking_for_button
+    def button_clicked(self,e,page):
         if (self.check_start == False):
-            print("Prueba comenzada")
-            text_checking_for_button.value = "Prueba comenzada"
-            text_checking_for_button.color= "blue200"
+            print("Habilitado")
+            self.start_button.text = "Deshabilitar"
             e.control.update()
             page.update()
             self.check_start = True
         elif (self.check_start == True):
-            print("Prueba pausada")
-            text_checking_for_button.value = "Prueba pausada"
-            text_checking_for_button.color= "red200"
+            print("Deshabilitado")
+            self.start_button.text = "Habilitar"
             page.update()
             e.control.update()
             self.check_start = False
@@ -259,10 +256,8 @@ class EventCatalog:
             page.update()
         else:
             None
-        self.text_checking_for_button.value = "Prueba pausada"
-        self.text_checking_for_button.color= "red200"
+        self.start_button.text = "Habilitar"
         page.update()
-        e.control.update()
         self.check_start = False
         
     def save_patient_name(self,e,confirm_button,page):
@@ -325,10 +320,8 @@ class EventCatalog:
             self.check_level_2 = False
             self.check_level_3 = False
             self.start_button.disabled = True
-            self.text_checking_for_button.value = "Prueba pausada"
-            self.text_checking_for_button.color= "red200"
+            self.start_button.text = "Habilitar"
             page.update()
-            e.control.update()
             self.check_start = False
         except:
             None
