@@ -3,8 +3,8 @@ from src.utils.events import e_catalog
 
 def some_cards(page, count):
         some_cards = []
-        text_field_time = ft.TextField(value="1", text_align=ft.TextAlign.CENTER, width=100,read_only=True)
-        text_field_intensity = ft.TextField(value="1", text_align=ft.TextAlign.CENTER, width=100,read_only=True)
+        text_field_time = ft.TextField(value="1", text_align=ft.TextAlign.CENTER, width=100,read_only=False,border=ft.InputBorder.UNDERLINE, filled=True, on_focus=lambda e: e_catalog.field_time_keyboard(e),on_blur=lambda e: e_catalog.close_keyboard(e))
+        text_field_intensity = ft.TextField(value="1", text_align=ft.TextAlign.CENTER, width=100,read_only=False,border=ft.InputBorder.UNDERLINE, filled=True)
         # buttons declarations (when is necessary)
         Select_increment_mode = ft.CupertinoSlidingSegmentedButton(
                                 selected_index=1,

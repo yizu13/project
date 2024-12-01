@@ -1,5 +1,6 @@
 import flet as ft
 import time
+import subprocess
 
 
 class EventCatalog:
@@ -18,6 +19,12 @@ class EventCatalog:
         self.confirm_button = None
         self.information_window = None
         self.check_start = False
+    
+    def field_time_keyboard(self,e):
+        None
+
+    def close_keyboard(self,e):
+        None
 
     def button_clicked(self,e,page):
         if (self.check_start == False):
