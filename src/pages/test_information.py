@@ -12,11 +12,11 @@ def test_information(page):
     dlg_modal = ft.AlertDialog(
         modal=True,
         title=ft.Text("  Informaciones importantes  "),
-        
-        actions=[# here you will put the fuctions of controls 
-            page_important_content, confirm_button
+        content= ft.SafeArea(page_important_content,height = 200),
+        actions=[# here you will put the fuctions of controls  
+            ft.SafeArea(ft.Container(confirm_button ,alignment=ft.alignment.bottom_right),expand=True)
         ],
-        actions_alignment=ft.MainAxisAlignment.END,
+        actions_alignment=ft.MainAxisAlignment.CENTER,
     )
     e_catalog.check_confirm_button(confirm_button,page)
     page.open(dlg_modal)
