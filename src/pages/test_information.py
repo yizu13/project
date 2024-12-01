@@ -12,7 +12,7 @@ def test_information(page):
     dlg_modal = ft.AlertDialog(
         modal=True,
         title=ft.Text("  Informaciones importantes  "),
-        content= ft.SafeArea(page_important_content,height = 200),
+        content= ft.SafeArea(page_important_content,height = 300),
         actions=[# here you will put the fuctions of controls  
             ft.SafeArea(ft.Container(confirm_button ,alignment=ft.alignment.bottom_right),expand=True)
         ],
