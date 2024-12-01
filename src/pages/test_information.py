@@ -12,15 +12,9 @@ def test_information(page):
     dlg_modal = ft.AlertDialog(
         modal=True,
         title=ft.Text("  Informaciones importantes  "),
-        content= ft.Container(
-            content= 
-                page_important_content,
-                width=200,
-                height=200,
-                padding=5,
-                ),
+        
         actions=[# here you will put the fuctions of controls 
-            confirm_button
+            page_important_content, confirm_button
         ],
         actions_alignment=ft.MainAxisAlignment.END,
     )
