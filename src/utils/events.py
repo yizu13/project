@@ -336,14 +336,17 @@ class EventCatalog:
         page.update()
 
     def restart_some_variables_to_disable_start_button(self,page):
-        self.start_button.text = "Habilitar"
-        self.check_start = False
-        self.check_for_send_intensity = False
-        self.check_for_send_time = False 
-        self.plus_button_from_intensity.disabled = False
-        self.minus_button_from_intensity.disabled = False
-        self.plus_button_from_time.disabled = False
-        self.minus_button_from_time.disabled = False
+        try:
+            self.start_button.text = "Habilitar"
+            self.check_start = False
+            self.check_for_send_intensity = False
+            self.check_for_send_time = False 
+            self.plus_button_from_intensity.disabled = False
+            self.minus_button_from_intensity.disabled = False
+            self.plus_button_from_time.disabled = False
+            self.minus_button_from_time.disabled = False
+        except:
+            None
 
         page.update()
         
