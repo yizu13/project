@@ -1,12 +1,28 @@
 import serial, time
-arduino = serial.Serial('COM12', 9600)
-time.sleep(2)
-message = "toma"
-arduino.write(message.encode())
-print(f"Sent: {message}")
-read = arduino.readline()
-print (read)
-arduino.close
+class sendings_to_arduino:
+    def __init__(self):
+        self.message_time = None
+        self.message_intensity = None 
+        self.arduino = serial.Serial('COM12', 9600,timeout=10)
+
+    def send_time_to_arduino(self,text_field_time):
+        self.message_time = text_field_time
+        confirm_pass_time = f"time was sent,{self.message_time}"
+        self.arduino.write(confirm_pass_time.encode())
+        print (self.arduino.readline())
+        self.arduino.close
+
+    def send_intensity_to_arduino(self,text_field_intesity):
+        self.message_intensity = text_field_intesity
+        confirm_pass_intensity = f"intensity was sent,{self.message_intensity}"
+        self.arduino.write(confirm_pass_intensity.encode())
+        print (self.arduino.readline())
+        self.arduino.close
+
+
+
+
+communication = sendings_to_arduino()
 
 
 

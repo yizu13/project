@@ -1,5 +1,6 @@
 import flet as ft
 import time
+from src.utils.script_communication import communication
 
 class EventCatalog:
     def __init__(self):
@@ -133,7 +134,8 @@ class EventCatalog:
     def send_time(self, page, plus_button_from_time, minus_button_from_time,text_field_time,start_button):
         self.text_field_time = text_field_time
         self.plus_button_from_time = plus_button_from_time
-        self.minus_button_from_time = minus_button_from_time    
+        self.minus_button_from_time = minus_button_from_time   
+         
         if (self.check_for_send_time == True):
             plus_button_from_time.disabled = False
             plus_button_from_time.update()
@@ -142,23 +144,40 @@ class EventCatalog:
             self.check_for_send_time = False
             self.check_start_button(page,start_button)
             page.update()
+
+            if(int(text_field_time.value) <= 0):
+                minus_button_from_time.disabled = True
+                minus_button_from_time.update()
+                text_field_time.disabled = True
+            
+            if(int(text_field_time.value) >= 15):
+                plus_button_from_time.disabled = True
+                plus_button_from_time.update()
+                text_field_time.disabled = True
+
             return
 
         if (self.check_for_send_time == False):
+
             plus_button_from_time.disabled = True
             plus_button_from_time.update()
             minus_button_from_time.disabled = True
             minus_button_from_time.update()
             self.check_for_send_time = True
             print(f"time sent: {text_field_time.value}") # en esta parte se pondrá el enlace para enviar los datos al arduino
+            communication.send_time_to_arduino(text_field_time.value)
             self.check_start_button(page,start_button)
             page.update()
+
             return
+    
+        
         
     def send_intensity(self, page, plus_button_from_intensity, minus_button_from_intensity,text_field_intensity,start_button):
         self.text_field_intensity = text_field_intensity
         self.plus_button_from_intensity = plus_button_from_intensity
         self.minus_button_from_intensity = minus_button_from_intensity
+
         if (self.check_for_send_intensity == True):
             plus_button_from_intensity.disabled = False
             plus_button_from_intensity.update()
@@ -167,6 +186,17 @@ class EventCatalog:
             self.check_for_send_intensity = False
             self.check_start_button(page,start_button)
             page.update()
+
+            if(int(text_field_intensity.value) <= 0):
+                minus_button_from_intensity.disabled = True
+                minus_button_from_intensity.update()
+                text_field_intensity.disabled = True
+            
+            if(int(text_field_intensity.value) >= 15):
+                plus_button_from_intensity.disabled = True
+                plus_button_from_intensity.update()
+                text_field_intensity.disabled = True
+
             return
 
         if (self.check_for_send_intensity == False):
@@ -176,8 +206,10 @@ class EventCatalog:
             minus_button_from_intensity.update()
             self.check_for_send_intensity = True
             print(f"intensity sent: {text_field_intensity.value}") # en esta parte se pondrá el enlace para enviar los datos al arduino
+            communication.send_intensity_to_arduino(text_field_intensity.value)
             self.check_start_button(page,start_button)
             page.update()
+
             return
     
     def level_1_(self,e,page, level_2, level_3,start_button):
