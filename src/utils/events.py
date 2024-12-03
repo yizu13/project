@@ -423,6 +423,28 @@ class EventCatalog:
             self.minus_button_from_time.disabled = False
             self.text_field_time.disabled =False
             self.text_field_intensity.disabled = False
+
+            if(int(self.text_field_intensity.value) <= 0):
+                self.minus_button_from_intensity.disabled = True
+                self.minus_button_from_intensity.update()
+                self.text_field_intensity.disabled = True
+            
+            if(int(self.text_field_intensity.value) >= 100):
+                self.plus_button_from_intensity.disabled = True
+                self.plus_button_from_intensity.update()
+                self.text_field_intensity.disabled = True
+
+            if(int(self.text_field_time.value) <= 0):
+                self.minus_button_from_time.disabled = True
+                self.minus_button_from_time.update()
+                self.text_field_time.disabled = True
+            
+            if(int(self.text_field_time.value) >= 15):
+                self.plus_button_from_time.disabled = True
+                self.plus_button_from_time.update()
+                self.text_field_time.disabled = True
+
+            
         except:
             None
 
