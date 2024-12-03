@@ -1,4 +1,5 @@
 import serial, time
+from src.utils.verificaiton import verify
 
 
 #Consideraciones: debe programar un detector automatico de puerto com o del puerto en linux (si usa linux el puerto se escribe diferente)
@@ -13,7 +14,7 @@ class sendings_to_arduino:
         self.command_restart = None
         self.start_test = None
         self.stop_test = None
-        self.arduino = serial.Serial('COM12', 9600,timeout=10)
+        self.arduino = serial.Serial(verify.puerto_arduino, 9600,timeout=10)
 
     def send_time_to_arduino(self,text_field_time):
         try:
