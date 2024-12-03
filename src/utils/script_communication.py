@@ -1,4 +1,8 @@
 import serial, time
+
+
+#Consideraciones: debe programar un detector automatico de puerto com o del puerto en linux (si usa linux el puerto se escribe diferente)
+#También el programa no inicia al menos que detecte el arduino por lo tanto si desea hacer pruebas sin arduino debe desactivar esta página
 class sendings_to_arduino:
     def __init__(self):
         self.message_time = None
@@ -102,31 +106,4 @@ class sendings_to_arduino:
 
 communication = sendings_to_arduino()
 
-
-
-
-
-
-
-
-#Example code in arduino
-
-#const int led= 13;
-#void setup() {
-# // put your setup code here, to run once:
-#  Serial.begin(9600);
-#  pinMode(13, OUTPUT);
-
-#}
-
-#void loop() {
-#  // put your main code here, to run repeatedly:
-#  if (Serial.readString() == "toma"){
-#    Serial.println("si lo agarre pp");
-#    digitalWrite(13,HIGH);
-#    delay(3000);
-#    digitalWrite(13,LOW);
-#    }
-
-#}
 
