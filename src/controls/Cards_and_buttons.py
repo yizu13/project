@@ -23,12 +23,12 @@ def some_cards(page, count):
         setting_time_button = ft.Text("Tiempo Rampa TEC Imax")
         setting_intensity_button = ft.Text("Introducir % potencia")
 
-        level_1 = ft.ElevatedButton("NIVEL 1: 87VAC 8mW", on_click=lambda e: e_catalog.level_1_(e,page,level_2,level_3,start_button), width= 210, height= 80)
-        level_2 = ft.ElevatedButton("NIVEL 2: 129VAC 162mW", on_click=lambda e: e_catalog.level_2_(e,page,level_1,level_3,start_button), width= 210, height= 80)
-        level_3 = ft.ElevatedButton("NIVEL 3: 141VAC 193mW", on_click=lambda e: e_catalog.level_3_(e,page,level_1,level_2,start_button), width= 210, height= 80)
+        level_1 = ft.ElevatedButton("NIVEL 1: 87VAC 8mW", on_click=lambda e: e_catalog.level_1_(e,page,level_2,level_3,start_button), width= 210, height= 60)
+        level_2 = ft.ElevatedButton("NIVEL 2: 129VAC 162mW", on_click=lambda e: e_catalog.level_2_(e,page,level_1,level_3,start_button), width= 210, height= 60)
+        level_3 = ft.ElevatedButton("NIVEL 3: 141VAC 193mW", on_click=lambda e: e_catalog.level_3_(e,page,level_1,level_2,start_button), width= 210, height= 60)
 
 
-        start_button = ft.ElevatedButton(text="Habilitar", on_click=lambda e: e_catalog.button_clicked(e,page,plus_button_from_time, minus_button_from_time,text_field_time,plus_button_from_intensity, minus_button_from_intensity, text_field_intensity), width= 200, height= 100, disabled= True)
+        start_button = ft.ElevatedButton(text="Habilitar", on_click=lambda e: e_catalog.button_clicked(e,page,plus_button_from_time, minus_button_from_time,text_field_time,plus_button_from_intensity, minus_button_from_intensity, text_field_intensity), width= 150, height= 60, disabled= True)
         text_checking_for_button = ft.Text("Estatus de la terapia", color="red800",theme_style=ft.TextThemeStyle.BODY_LARGE, weight=ft.FontWeight.W_700)
 
         content_cards = {'card_1': [
@@ -94,10 +94,10 @@ def some_cards(page, count):
             content=ft.Container(
                 content=ft.Column(
                     content_cards.get(f'card_{i}')
-                    ,alignment= ft.MainAxisAlignment.CENTER, spacing= 22
+                    ,alignment= ft.MainAxisAlignment.CENTER, spacing= 10
                 ),
-                width=315,
-                height= 350,
+                width=240,
+                height=230,
                 padding=1,
             )
         )
