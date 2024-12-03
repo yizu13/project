@@ -27,6 +27,7 @@ class EventCatalog:
 
     def button_clicked(self,e,page,plus_button_from_time, minus_button_from_time,text_field_time,plus_button_from_intensity, minus_button_from_intensity, text_field_intensity):
         self.start_button = e.control
+
         if (self.check_start == False):
             print("Habilitado")
             self.start_button.text = "Deshabilitar"
@@ -38,13 +39,16 @@ class EventCatalog:
             self.start_button.text = "Habilitar"
             page.update()
             e.control.update()
+            communication.Stop_test("Stop test")
             self.check_start = False
-        while True:
-            self.disable_all_buttons(page,True)
-            self.send_time(page, plus_button_from_time, minus_button_from_time,text_field_time,e.control)
-            self.send_intensity(page, plus_button_from_intensity, minus_button_from_intensity,text_field_intensity,e.control)
-            self.disable_all_buttons(page,False)
-            return False
+        
+        self.disable_all_buttons(page,True)
+        self.send_time(page, plus_button_from_time, minus_button_from_time,text_field_time,e.control)
+        self.send_intensity(page, plus_button_from_intensity, minus_button_from_intensity,text_field_intensity,e.control)
+        self.disable_all_buttons(page,False)
+
+        if (self.start_button.text == "Deshabilitar"):
+            communication.Start_test("Start test")
         
     def disable_all_buttons(self,page,boolian):
         if (boolian == True):
@@ -212,16 +216,16 @@ class EventCatalog:
             minus_button_from_intensity.update()
             text_field_intensity.disabled = False
             text_field_intensity.update()
-            self.check_for_send_intensity = False
             self.check_start_button(page,start_button)
             page.update()
+            self.check_for_send_intensity = False
 
             if(int(text_field_intensity.value) <= 0):
                 minus_button_from_intensity.disabled = True
                 minus_button_from_intensity.update()
                 text_field_intensity.disabled = True
             
-            if(int(text_field_intensity.value) >= 15):
+            if(int(text_field_intensity.value) >= 100):
                 plus_button_from_intensity.disabled = True
                 plus_button_from_intensity.update()
                 text_field_intensity.disabled = True
@@ -233,13 +237,13 @@ class EventCatalog:
             plus_button_from_intensity.update()
             minus_button_from_intensity.disabled = True
             minus_button_from_intensity.update()
-            self.check_for_send_intensity = True
             text_field_intensity.disabled = True
             text_field_intensity.update()
             print(f"intensity sent: {text_field_intensity.value}") # en esta parte se pondrá el enlace para enviar los datos al arduino
             communication.send_intensity_to_arduino(text_field_intensity.value)
             self.check_start_button(page,start_button)
             page.update()
+            self.check_for_send_intensity = True
 
             return
     
@@ -409,6 +413,7 @@ class EventCatalog:
     def restart_some_variables_to_disable_start_button(self,page):
         try:
             self.start_button.text = "Habilitar"
+            communication.Stop_test("Stop test")
             self.check_start = False
             self.check_for_send_intensity = False
             self.check_for_send_time = False 
@@ -447,6 +452,7 @@ class EventCatalog:
             self.check_level_3 = False
             self.start_button.disabled = True
             self.start_button.text = "Habilitar"
+            communication.Stop_test("Stop test")
             page.update()
             self.text_field_time.disabled = False #Se le mandará este valor al arduino
             self.text_field_intensity.disabled = False #Se le mandará este valor al arduino

@@ -7,6 +7,8 @@ class sendings_to_arduino:
         self.level_2 = None
         self.level_3 = None
         self.command_restart = None
+        self.start_test = None
+        self.stop_test = None
         self.arduino = serial.Serial('COM12', 9600,timeout=10)
 
     def send_time_to_arduino(self,text_field_time):
@@ -21,7 +23,7 @@ class sendings_to_arduino:
 
     def send_intensity_to_arduino(self,text_field_intesity):
         try:
-            self.message_intensity = text_field_intesity
+            self.message_intensity = str(8300*((60*int(text_field_intesity))/10000))
             confirm_pass_intensity = f"intensity was sent,{self.message_intensity}"
             self.arduino.write(confirm_pass_intensity.encode())
             print (self.arduino.readline())
@@ -74,6 +76,26 @@ class sendings_to_arduino:
         confirm_pass_restart = f"{self.command_restart},4"
         self.arduino.write(confirm_pass_restart.encode())
         self.arduino.close
+
+    def Start_test(self,start_test):
+        try:
+            self.start_test = start_test
+            confirm_pass_start_test = f"{self.start_test},5"
+            self.arduino.write(confirm_pass_start_test.encode())
+            self.arduino.close
+        except:
+            print("more slow")
+
+    def Stop_test(self,stop_test):
+        try:
+            self.stop_test = stop_test
+            confirm_pass_stop_test = f"{self.stop_test},6"
+            self.arduino.write(confirm_pass_stop_test.encode())
+            print (self.arduino.readline())
+            print (self.arduino.readline())
+            self.arduino.close
+        except:
+            print("more slow")
 
 
 

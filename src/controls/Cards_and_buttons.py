@@ -96,7 +96,7 @@ def some_cards(page, count):
                     content_cards.get(f'card_{i}')
                     ,alignment= ft.MainAxisAlignment.CENTER, spacing= 22
                 ),
-                width=240,
+                width=315,
                 height= 350,
                 padding=1,
             )
