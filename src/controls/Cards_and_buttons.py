@@ -3,8 +3,8 @@ from src.utils.events import e_catalog
 
 def some_cards(page, count):
         some_cards = []
-        text_field_time = ft.TextField(value="1", text_align=ft.TextAlign.CENTER, width=100,read_only=False,border=ft.InputBorder.UNDERLINE, filled=True, on_focus=lambda e: e_catalog.field_time_keyboard(e),on_blur=lambda e: e_catalog.close_keyboard(e))
-        text_field_intensity = ft.TextField(value="1", text_align=ft.TextAlign.CENTER, width=100,read_only=False,border=ft.InputBorder.UNDERLINE, filled=True)
+        text_field_time = ft.TextField(value="1", text_align=ft.TextAlign.CENTER, width=100,read_only=False,border=ft.InputBorder.UNDERLINE, filled=True, on_focus=lambda e: e_catalog.field_time_keyboard(e),on_blur=lambda e: e_catalog.close_keyboard(e), on_change=lambda e: e_catalog.field_text_handler_cards_and_buttons(e,page,e.control,15,plus_button_from_time,minus_button_from_time),input_filter=ft.NumbersOnlyInputFilter())
+        text_field_intensity = ft.TextField(value="1", text_align=ft.TextAlign.CENTER, width=100,read_only=False,border=ft.InputBorder.UNDERLINE, filled=True, on_change=lambda e: e_catalog.field_text_handler_cards_and_buttons(e,page,e.control,100,plus_button_from_intensity,minus_button_from_intensity),input_filter=ft.NumbersOnlyInputFilter())
         # buttons declarations (when is necessary)
         Select_increment_mode = ft.CupertinoSlidingSegmentedButton(
                                 selected_index=1,
@@ -14,21 +14,21 @@ def some_cards(page, count):
                                         ft.Text("Mantener"),
                                         ft.Text("Por click")
                                             ])
-        plus_button_from_time = ft.IconButton(ft.icons.ADD, on_click=lambda e: e_catalog.plus_click(e,page,text_field_time,Select_increment_mode,minus_button_from_time, 120, setting_time_button))
-        minus_button_from_time = ft.IconButton(ft.icons.REMOVE, on_click=lambda e: e_catalog.minus_click(e,page,text_field_time,Select_increment_mode,plus_button_from_time, 120, setting_time_button))
+        plus_button_from_time = ft.IconButton(ft.icons.ADD, on_click=lambda e: e_catalog.plus_click(e,page,text_field_time,Select_increment_mode,minus_button_from_time, 15))
+        minus_button_from_time = ft.IconButton(ft.icons.REMOVE, on_click=lambda e: e_catalog.minus_click(e,page,text_field_time,Select_increment_mode,plus_button_from_time, 15))
 
-        plus_button_from_intensity = ft.IconButton(ft.icons.ADD, on_click=lambda e: e_catalog.plus_click(e,page,text_field_intensity,Select_increment_mode,minus_button_from_intensity, 100, setting_intensity_button))
-        minus_button_from_intensity = ft.IconButton(ft.icons.REMOVE, on_click=lambda e: e_catalog.minus_click(e,page,text_field_intensity,Select_increment_mode,plus_button_from_intensity, 100, setting_intensity_button))
+        plus_button_from_intensity = ft.IconButton(ft.icons.ADD, on_click=lambda e: e_catalog.plus_click(e,page,text_field_intensity,Select_increment_mode,minus_button_from_intensity, 100))
+        minus_button_from_intensity = ft.IconButton(ft.icons.REMOVE, on_click=lambda e: e_catalog.minus_click(e,page,text_field_intensity,Select_increment_mode,plus_button_from_intensity, 100))
 
-        setting_time_button = ft.ElevatedButton("Configurar tiempo", on_click=lambda e: e_catalog.send_time(e, page, plus_button_from_time, minus_button_from_time,text_field_time, start_button))
-        setting_intensity_button = ft.ElevatedButton("Configurar intensidad", on_click=lambda e: e_catalog.send_intensity(e, page, plus_button_from_intensity,  minus_button_from_intensity, text_field_intensity, start_button))
+        setting_time_button = ft.Text("Tiempo Rampa TEC Imax")
+        setting_intensity_button = ft.Text("Introducir % potencia")
 
-        level_1 = ft.ElevatedButton("Nivel 1", on_click=lambda e: e_catalog.level_1_(e,page,level_2,level_3,start_button), width= 200, height= 100)
-        level_2 = ft.ElevatedButton("Nivel 2", on_click=lambda e: e_catalog.level_2_(e,page,level_1,level_3,start_button), width= 200, height= 100)
-        level_3 = ft.ElevatedButton("Nivel 3", on_click=lambda e: e_catalog.level_3_(e,page,level_1,level_2,start_button), width= 200, height= 100)
+        level_1 = ft.ElevatedButton("NIVEL 1: 87VAC 8mW", on_click=lambda e: e_catalog.level_1_(e,page,level_2,level_3,start_button), width= 210, height= 60)
+        level_2 = ft.ElevatedButton("NIVEL 2: 129VAC 162mW", on_click=lambda e: e_catalog.level_2_(e,page,level_1,level_3,start_button), width= 210, height= 60)
+        level_3 = ft.ElevatedButton("NIVEL 3: 141VAC 193mW", on_click=lambda e: e_catalog.level_3_(e,page,level_1,level_2,start_button), width= 210, height= 60)
 
 
-        start_button = ft.ElevatedButton(text="Habilitar", on_click=lambda e: e_catalog.button_clicked(e,page), width= 200, height= 100, disabled= True)
+        start_button = ft.ElevatedButton(text="Habilitar", on_click=lambda e: e_catalog.button_clicked(e,page,plus_button_from_time, minus_button_from_time,text_field_time,plus_button_from_intensity, minus_button_from_intensity, text_field_intensity), width= 150, height= 60, disabled= True)
         text_checking_for_button = ft.Text("Estatus de la terapia", color="red800",theme_style=ft.TextThemeStyle.BODY_LARGE, weight=ft.FontWeight.W_700)
 
         content_cards = {'card_1': [
@@ -38,6 +38,12 @@ def some_cards(page, count):
                             alignment=ft.MainAxisAlignment.CENTER
                         ),
                             ft.Row(
+                            [
+                                setting_time_button
+                             ],
+                            alignment=ft.MainAxisAlignment.CENTER,
+                        ),
+                            ft.Row(
                             [   minus_button_from_time,
                                 text_field_time,
                                 plus_button_from_time],
@@ -45,8 +51,8 @@ def some_cards(page, count):
                         ), 
                             ft.Row(
                             [
-                                  setting_time_button
-                             ],
+                                setting_intensity_button  
+                            ],
                             alignment=ft.MainAxisAlignment.CENTER,
                         ),
                             ft.Row(
@@ -54,12 +60,6 @@ def some_cards(page, count):
                                   text_field_intensity,
                                 plus_button_from_intensity
                                 ],
-                            alignment=ft.MainAxisAlignment.CENTER,
-                        ),
-                            ft.Row(
-                            [
-                                setting_intensity_button  
-                            ],
                             alignment=ft.MainAxisAlignment.CENTER,
                         )
                         ],
@@ -94,10 +94,10 @@ def some_cards(page, count):
             content=ft.Container(
                 content=ft.Column(
                     content_cards.get(f'card_{i}')
-                    ,alignment= ft.MainAxisAlignment.CENTER, spacing= 50
+                    ,alignment= ft.MainAxisAlignment.CENTER, spacing= 10
                 ),
                 width=240,
-                height= 440,
+                height=230,
                 padding=1,
             )
         )
