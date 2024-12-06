@@ -1,4 +1,4 @@
 flet>=0.3.2
-pyinstaller>=5.7.0
+pyinstaller>=6.10.0
 pillow>=9.4.0
 pyserial>=3.5
