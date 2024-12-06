@@ -29,6 +29,6 @@ def main(page: ft.Page):
     
 
 def start():
-    return ft.app(main)
+    return ft.app(target=main)
     
-start_page = start()
+start()
