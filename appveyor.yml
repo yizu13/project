@@ -31,6 +31,7 @@ deploy:
   on:
     branch: main                 # release from master branch only
     APPVEYOR_REPO_TAG: true        # deploy on tag push only
+    tag: flet__
 
 #
 #   Windows package
