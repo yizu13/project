@@ -1,32 +1,34 @@
-import flet
-from flet import IconButton, Page, Row, TextField, icons
+import flet as ft
+from src.pages.Home_page import page_home_class_
+from src.pages.test_information import test_information
+from src.utils.verificaiton import verify
 
+def main(page: ft.Page):
+    verify.calling_def()
+    if (verify.puerto_arduino == None):
+        page.window.close()
+    else:
+        page.title = "GPNET_PULSE_SYSTEM"
+        page.window.icon = "../assets/GPNET_logo.ico"
+        #screen definition 
+        page.window.full_screen = False
+        page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+        page.window.always_on_top = False
+        page.theme_mode = ft.ThemeMode.LIGHT
 
-def main(page: Page):
-    page.title = "Flet counter example"
-    page.vertical_alignment = "center"
-
-    txt_number = TextField(value="0", text_align="right", width=100)
-
-    def minus_click(e):
-        txt_number.value = int(txt_number.value) - 1
+        page.window.max_width = 800
+        page.window.max_height= 480
+        page.window.width = 800
+        page.window.height= 480
+        
+        page_home_class_.main_button(page) 
+        
+        test_information(page)
+        
         page.update()
+    
 
-    def plus_click(e):
-        txt_number.value = int(txt_number.value) + 1
-        page.update()
-
-    page.add(
-        Row(
-            [
-                IconButton(icons.REMOVE, on_click=minus_click),
-                txt_number,
-                IconButton(icons.ADD, on_click=plus_click),
-            ],
-            alignment="center",
-        )
-    )
-
-
-flet.app(target=main)
-
+def start():
+    return ft.app(main)
+    
+start_page = start()
