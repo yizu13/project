@@ -1,24 +1,32 @@
-import flet as ft
+import flet
+from flet import IconButton, Page, Row, TextField, icons
 
-def main(page: ft.Page):
-        page.window.close()
-        page.title = "GPNET_PULSE_SYSTEM"
-        page.window.icon = "../assets/GPNET_logo.ico"
-        #screen definition 
-        page.window.full_screen = False
-        page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-        page.window.always_on_top = False
-        page.theme_mode = ft.ThemeMode.LIGHT
 
-        page.window.max_width = 800
-        page.window.max_height= 480
-        page.window.width = 800
-        page.window.height= 480
-        
-        
+def main(page: Page):
+    page.title = "Flet counter example"
+    page.vertical_alignment = "center"
+
+    txt_number = TextField(value="0", text_align="right", width=100)
+
+    def minus_click(e):
+        txt_number.value = int(txt_number.value) - 1
         page.update()
-    
+
+    def plus_click(e):
+        txt_number.value = int(txt_number.value) + 1
+        page.update()
+
+    page.add(
+        Row(
+            [
+                IconButton(icons.REMOVE, on_click=minus_click),
+                txt_number,
+                IconButton(icons.ADD, on_click=plus_click),
+            ],
+            alignment="center",
+        )
+    )
 
 
-ft.app(target=main)
+flet.app(target=main)
 
