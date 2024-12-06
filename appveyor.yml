@@ -20,10 +20,17 @@ test: off
 
 # Publish artifacts to GitHub Releases on "tag" builds
 deploy:
+  release: myproduct-v$1
+  description: 'proving this thing'
   provider: GitHub
-  auth_token: $(GITHUB_TOKEN)
+  auth_token:
+    secure: Xq5g5fK58fZaVhOxq4qntYOVT9LEoOAv9T3Reg0ngMvEzaeQfvm4NGrGXtGJ9j/S+efEOwTFuoxzFKQ61mUI53zco/tGEhuZLA0rsssdSNE8zWE410b32jBNhsr6Bd4W # your encrypted token from GitHub
+  artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
+  draft: false
+  prerelease: false
   on:
-    APPVEYOR_REPO_TAG: true
+    branch: main                 # release from master branch only
+    APPVEYOR_REPO_TAG: true        # deploy on tag push only
 
 #
 #   Windows package
