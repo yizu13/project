@@ -1,13 +1,7 @@
 import flet as ft
-from src.pages.Home_page import page_home_class_
-from src.pages.test_information import test_information
-from src.utils.verificaiton import verify
 
 def main(page: ft.Page):
-    verify.calling_def()
-    if (verify.puerto_arduino == None):
         page.window.close()
-    else:
         page.title = "GPNET_PULSE_SYSTEM"
         page.window.icon = "../assets/GPNET_logo.ico"
         #screen definition 
@@ -21,9 +15,6 @@ def main(page: ft.Page):
         page.window.width = 800
         page.window.height= 480
         
-        page_home_class_.main_button(page) 
-        
-        test_information(page)
         
         page.update()
     
