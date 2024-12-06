@@ -32,41 +32,49 @@ class EventCatalog:
             print("Habilitado")
             self.start_button.text = "Deshabilitar"
             e.control.update()
+            self.finalization_button.disabled = True
+            self.modify_button.disabled = True
             page.update()
             self.check_start = True
         elif (self.check_start == True):
+            self.disable_all_buttons(page,True,"no_level")
             print("Deshabilitado")
             self.start_button.text = "Habilitar"
             page.update()
             e.control.update()
             communication.Stop_test("Stop test")
+            time.sleep(3)
+            self.finalization_button.disabled = False
+            self.modify_button.disabled = False
+            self.disable_all_buttons(page,False,"level")
             self.check_start = False
-        
-        self.disable_all_buttons(page,True)
+            
+        if(self.start_button.text == "Deshabilitar"):
+            self.disable_all_buttons(page,True,"no_level")
         self.send_time(page, plus_button_from_time, minus_button_from_time,text_field_time,e.control)
         self.send_intensity(page, plus_button_from_intensity, minus_button_from_intensity,text_field_intensity,e.control)
-        self.disable_all_buttons(page,False)
-
-        if (self.start_button.text == "Deshabilitar"):
-            communication.Start_test("Start test")
+        time.sleep(3)
+        self.disable_all_buttons(page,False,"no_level")
         
-    def disable_all_buttons(self,page,boolian):
+        
+
+    def disable_all_buttons(self,page,boolian,state):
+       
         if (boolian == True):
             self.level_3.disabled = boolian
             self.level_1.disabled = boolian
             self.level_2.disabled = boolian
 
-        if (self.check_level_1  == True) and (boolian == False):
+        if (self.check_level_1  == True) and (boolian == False) and (state == "level"):
             self.level_1.disabled = boolian
 
-        if (self.check_level_2  == True) and (boolian == False):
+        if (self.check_level_2  == True) and (boolian == False) and (state == "level"):
             self.level_2.disabled = boolian
 
-        if (self.check_level_3  == True) and (boolian == False):
+        if (self.check_level_3  == True) and (boolian == False) and (state == "level"):
             self.level_3.disabled = boolian
-            
-        self.modify_button.disabled = boolian
-        self.finalization_button.disabled = boolian
+        
+        self.start_button.disabled = boolian
         page.update()
         
     def minus_click(self,e,page,change_value_time,Select_increment_mode,plus_button_from_time, max):
@@ -171,7 +179,6 @@ class EventCatalog:
             text_field_time.disabled = False
             text_field_time.update()
             self.check_for_send_time = False
-            self.check_start_button(page,start_button)
             page.update()
 
             if(int(text_field_time.value) <= 0):
@@ -196,7 +203,6 @@ class EventCatalog:
             text_field_time.update()
             print(f"time sent: {text_field_time.value}") # en esta parte se pondrá el enlace para enviar los datos al arduino
             communication.send_time_to_arduino(text_field_time.value)
-            self.check_start_button(page,start_button)
             page.update()
             self.check_for_send_time = True
 
@@ -216,7 +222,6 @@ class EventCatalog:
             minus_button_from_intensity.update()
             text_field_intensity.disabled = False
             text_field_intensity.update()
-            self.check_start_button(page,start_button)
             page.update()
             self.check_for_send_intensity = False
 
@@ -241,7 +246,6 @@ class EventCatalog:
             text_field_intensity.update()
             print(f"intensity sent: {text_field_intensity.value}") # en esta parte se pondrá el enlace para enviar los datos al arduino
             communication.send_intensity_to_arduino(text_field_intensity.value)
-            self.check_start_button(page,start_button)
             page.update()
             self.check_for_send_intensity = True
 
@@ -252,15 +256,15 @@ class EventCatalog:
         self.level_3 = level_3
         self.level_1 = e.control
         if (self.check_level_1  == True):
+            communication.turn_off_level_1("Level 1 desactivated")
             level_2.disabled = False
             level_2.update()
             level_3.disabled = False
             level_3.update()
             self.check_level_1 = False
-            self.check_start_button(page,start_button)
             self.restart_some_variables_to_disable_start_button(page)
-            communication.turn_off_level_1("Level 1 desactivated")
             self.check_start = False
+            self.check_start_button(page,start_button)
             page.update()
             return
 
@@ -288,9 +292,9 @@ class EventCatalog:
             level_3.disabled = False
             level_3.update()
             self.check_level_2 = False
-            self.check_start_button(page,start_button)
             self.restart_some_variables_to_disable_start_button(page)
             communication.turn_off_level_2("Level 2 desactivated")
+            self.check_start_button(page,start_button)
             self.check_start = False
             page.update()
             return
@@ -321,6 +325,7 @@ class EventCatalog:
             self.check_start_button(page,start_button)
             self.restart_some_variables_to_disable_start_button(page)
             communication.turn_off_level_3("Level 3 desactivated")
+            self.check_start_button(page,start_button)
             page.update()
             return
 

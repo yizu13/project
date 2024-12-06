@@ -2,6 +2,7 @@ import serial, time
 from src.utils.verificaiton import verify
 
 
+
 #Consideraciones: debe programar un detector automatico de puerto com o del puerto en linux (si usa linux el puerto se escribe diferente)
 #También el programa no inicia al menos que detecte el arduino por lo tanto si desea hacer pruebas sin arduino debe desactivar esta página
 class sendings_to_arduino:
@@ -14,16 +15,23 @@ class sendings_to_arduino:
         self.command_restart = None
         self.start_test = None
         self.stop_test = None
-        self.arduino = serial.Serial(verify.puerto_arduino, 9600,timeout=10)
+        self.finish_test_to_go_out_glitch = None
+        try:
+         self.arduino = serial.Serial(verify.detectar_arduino(), 9600,timeout=10)
+        except serial.SerialTimeoutException:
+            print("Se produjo un timeout en la comunicación serial.")
 
     def send_time_to_arduino(self,text_field_time):
         try:
             self.message_time = text_field_time
             confirm_pass_time = f"time was sent,{self.message_time}"
             self.arduino.write(confirm_pass_time.encode())
-            print (self.arduino.readline())
+            printing = self.arduino.readline()
+            print(printing)
             self.arduino.close
-        except:
+            if (printing == b''):
+                print("Se produjo un timeout en la comunicación serial.")
+        except :
             print("more slow")
 
     def send_intensity_to_arduino(self,text_field_intesity):
@@ -31,8 +39,11 @@ class sendings_to_arduino:
             self.message_intensity = str(8300*((60*int(text_field_intesity))/10000))
             confirm_pass_intensity = f"intensity was sent,{self.message_intensity}"
             self.arduino.write(confirm_pass_intensity.encode())
-            print (self.arduino.readline())
+            printing = self.arduino.readline()
             self.arduino.close
+            print(printing)
+            if (printing == b''):
+                print("Se produjo un timeout en la comunicación serial.")
         except:
             print("more slow")
     
@@ -82,25 +93,20 @@ class sendings_to_arduino:
         self.arduino.write(confirm_pass_restart.encode())
         self.arduino.close
 
-    def Start_test(self,start_test):
-        try:
-            self.start_test = start_test
-            confirm_pass_start_test = f"{self.start_test},5"
-            self.arduino.write(confirm_pass_start_test.encode())
-            self.arduino.close
-        except:
-            print("more slow")
-
     def Stop_test(self,stop_test):
         try:
             self.stop_test = stop_test
-            confirm_pass_stop_test = f"{self.stop_test},6"
+            confirm_pass_stop_test = f"{self.stop_test},0"
             self.arduino.write(confirm_pass_stop_test.encode())
-            print (self.arduino.readline())
-            print (self.arduino.readline())
+            printing = self.arduino.readline()
+            printing_2 = self.arduino.readline()
             self.arduino.close
-        except:
-            print("more slow")
+            print(printing)
+            print(printing_2)
+            if (printing == b'') or (printing_2 == b''):
+                print("Se produjo un timeout en la comunicación serial.")
+        except serial.SerialTimeoutException:
+            print("Se produjo un timeout en la comunicación serial(rare case).")
 
 
 

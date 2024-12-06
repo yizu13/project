@@ -18,10 +18,8 @@ class verify_conections:
                 break
 
         if self.arduino_puerto:
-            print(f"Arduino detectado en: {self.arduino_puerto}")
             return self.arduino_puerto
         else:
-            print("No se detectó un Arduino conectado.")
             return None
         
     def calling_def(self):
@@ -31,10 +29,12 @@ class verify_conections:
         # If the arduino is detect, stablish a communication
         if self.puerto_arduino:
             try:
-                print("Conexión establecida.")
+                 print(f"Arduino detectado en: {self.arduino_puerto}")
                 # Here is a little commnication
             except Exception as e:
                 print(f"Error al conectar con el Arduino: {e}")
+        else:
+            print("No se detectó un Arduino conectado.")
                 
             
 

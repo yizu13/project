@@ -94,10 +94,10 @@ def some_cards(page, count):
             content=ft.Container(
                 content=ft.Column(
                     content_cards.get(f'card_{i}')
-                    ,alignment= ft.MainAxisAlignment.CENTER, spacing= 10
+                    ,alignment= ft.MainAxisAlignment.CENTER, spacing= 5
                 ),
                 width=240,
-                height=230,
+                height=205,
                 padding=1,
             )
         )
