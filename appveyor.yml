@@ -8,23 +8,22 @@ stack: python 3.10
 
 environment:
   GITHUB_TOKEN:
-    secure: Xq5g5fK58fZaVhOxq4qntYOVT9LEoOAv9T3Reg0ngMvEzaeQfvm4NGrGXtGJ9j/S+efEOwTFuoxzFKQ61mUI53zco/tGEhuZLA0rsssdSNE8zWE410b32jBNhsr6Bd4W
+    secure: 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
 
 install:
 - pip install -r requirements.txt
 
 build_script:
-- flet pack main.py --name counter --icon icon.png --product-name counter --product-version "1.2.3" --copyright "Copyright (c) 2024 GPNET Inc."
+- flet pack main.py --name counter --icon icon.png --product-name counter --product-version "1.2.3" --copyright "Copyright (c) 2022 YourCompany Inc."
 
 test: off
 
 # Publish artifacts to GitHub Releases on "tag" builds
 deploy:
   provider: GitHub
-  auth_token: Xq5g5fK58fZaVhOxq4qntYOVT9LEoOAv9T3Reg0ngMvEzaeQfvm4NGrGXtGJ9j/S+efEOwTFuoxzFKQ61mUI53zco/tGEhuZLA0rsssdSNE8zWE410b32jBNhsr6Bd4W
+  auth_token: $(GITHUB_TOKEN)
   on:
     APPVEYOR_REPO_TAG: true
-       # deploy on tag push only
 
 #
 #   Windows package
@@ -68,3 +67,4 @@ for:
 
   artifacts:
   - path: counter-linux.tar.gz
+
