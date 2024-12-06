@@ -19,7 +19,6 @@ def main(page: ft.Page):
         page.update()
     
 
-def start():
-    return ft.app(target=main)
-    
-start()
+
+ft.app(target=main)
+
