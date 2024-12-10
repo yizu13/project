@@ -16,12 +16,16 @@ class sendings_to_arduino:
         self.start_test = None
         self.stop_test = None
         self.finish_test_to_go_out_glitch = None
+        self.warning_comunication_lost = None
         try:
-         self.arduino = serial.Serial(verify.detectar_arduino(), 9600,timeout=10)
+         self.arduino = serial.Serial(verify.detectar_arduino(), 9600,timeout=5)
         except serial.SerialTimeoutException:
             print("Se produjo un timeout en la comunicación serial.")
+            self.warning_comunication_lost.value = "Reinicia el dispositivo"
+            self.restart_arduino("Restart arduino")
 
-    def send_time_to_arduino(self,text_field_time):
+    def send_time_to_arduino(self,text_field_time,warning_comunication_lost):
+        self.warning_comunication_lost = warning_comunication_lost
         try:
             self.message_time = text_field_time
             confirm_pass_time = f"time was sent,{self.message_time}"
@@ -31,10 +35,12 @@ class sendings_to_arduino:
             self.arduino.close
             if (printing == b''):
                 print("Se produjo un timeout en la comunicación serial.")
+                warning_comunication_lost.value = "Reinicia el dispositivo"
+                self.restart_arduino("Restart arduino")
         except :
             print("more slow")
 
-    def send_intensity_to_arduino(self,text_field_intesity):
+    def send_intensity_to_arduino(self,text_field_intesity,warning_comunication_lost):
         try:
             self.message_intensity = str(8300*((60*int(text_field_intesity))/10000))
             confirm_pass_intensity = f"intensity was sent,{self.message_intensity}"
@@ -44,6 +50,8 @@ class sendings_to_arduino:
             print(printing)
             if (printing == b''):
                 print("Se produjo un timeout en la comunicación serial.")
+                warning_comunication_lost.value = "Reinicia el dispositivo"
+                self.restart_arduino("Restart arduino")
         except:
             print("more slow")
     
@@ -93,7 +101,7 @@ class sendings_to_arduino:
         self.arduino.write(confirm_pass_restart.encode())
         self.arduino.close
 
-    def Stop_test(self,stop_test):
+    def Stop_test(self,stop_test,warning_comunication_lost):
         try:
             self.stop_test = stop_test
             confirm_pass_stop_test = f"{self.stop_test},0"
@@ -105,6 +113,8 @@ class sendings_to_arduino:
             print(printing_2)
             if (printing == b'') or (printing_2 == b''):
                 print("Se produjo un timeout en la comunicación serial.")
+                warning_comunication_lost.value = "Reinicia el dispositivo"
+                self.restart_arduino("Restart arduino")
         except serial.SerialTimeoutException:
             print("Se produjo un timeout en la comunicación serial(rare case).")
 
