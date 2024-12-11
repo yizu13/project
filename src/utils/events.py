@@ -258,20 +258,21 @@ class EventCatalog:
 
             return
     
-    def level_1_(self,e,page, level_2, level_3,start_button):
+    def level_1_(self,e,page, level_2, level_3,start_button,loading_page_sign):
+        loading_page_sign.value = None
         self.level_2 = level_2
         self.level_3 = level_3
         self.level_1 = e.control
         if (self.check_level_1  == True):
-            communication.turn_off_level_1("Level 1 desactivated")
             level_2.disabled = False
             level_2.update()
             level_3.disabled = False
             level_3.update()
             self.check_level_1 = False
-            self.restart_some_variables_to_disable_start_button(page)
-            self.check_start = False
             self.check_start_button(page,start_button)
+            communication.turn_off_level_1("Level 1 desactivated")
+            time.sleep(2)
+            loading_page_sign.value = 0
             page.update()
             return
 
@@ -281,15 +282,18 @@ class EventCatalog:
             level_3.disabled = True
             level_3.update()
             self.check_level_1 = True
+            self.check_start_button(page,start_button)
             print("Level 1 activated") # en esta parte se pondrá el enlace para enviar los datos al arduino
             communication.turn_on_level_1("Level 1 activated")
-            self.check_start_button(page,start_button)
+            time.sleep(2)
+            loading_page_sign.value = 0
             page.update()
             return
 
 
 
-    def level_2_(self,e,page, level_1, level_3,start_button):
+    def level_2_(self,e,page, level_1, level_3,start_button,loading_page_sign):
+        loading_page_sign.value = None
         self.level_1 = level_1
         self.level_2 = e.control
         self.level_3 = level_3
@@ -299,10 +303,10 @@ class EventCatalog:
             level_3.disabled = False
             level_3.update()
             self.check_level_2 = False
-            self.restart_some_variables_to_disable_start_button(page)
-            communication.turn_off_level_2("Level 2 desactivated")
             self.check_start_button(page,start_button)
-            self.check_start = False
+            communication.turn_off_level_2("Level 2 desactivated")
+            time.sleep(2)
+            loading_page_sign.value = 0
             page.update()
             return
 
@@ -312,14 +316,17 @@ class EventCatalog:
             level_3.disabled = True
             level_3.update()
             self.check_level_2 = True
+            self.check_start_button(page,start_button)
             print("Level 2 activated") # en esta parte se pondrá el enlace para enviar los datos al arduino
             communication.turn_on_level_2("Level 2 activated")
-            self.check_start_button(page,start_button)
+            time.sleep(2)
+            loading_page_sign.value = 0
             page.update()
             return
 
 
-    def level_3_(self,e,page, level_1, level_2,start_button):
+    def level_3_(self,e,page, level_1, level_2,start_button,loading_page_sign):
+        loading_page_sign.value = None
         self.level_1 = level_1
         self.level_2 = level_2
         self.level_3 = e.control
@@ -330,9 +337,9 @@ class EventCatalog:
             level_2.update()
             self.check_level_3 = False
             self.check_start_button(page,start_button)
-            self.restart_some_variables_to_disable_start_button(page)
             communication.turn_off_level_3("Level 3 desactivated")
-            self.check_start_button(page,start_button)
+            time.sleep(2)
+            loading_page_sign.value = 0
             page.update()
             return
 
@@ -342,9 +349,11 @@ class EventCatalog:
             level_2.disabled = True
             level_2.update()
             self.check_level_3 = True
+            self.check_start_button(page,start_button)
             print("Level 3 activated") # en esta parte se pondrá el enlace para enviar los datos al arduino
             communication.turn_on_level_3("Level 3 activated")
-            self.check_start_button(page,start_button)
+            time.sleep(2)
+            loading_page_sign.value = 0
             page.update()
             return
         
