@@ -28,9 +28,10 @@ def some_cards(page, count):
         level_3 = ft.ElevatedButton("NIVEL 3: 141VAC 193mW", on_click=lambda e: e_catalog.level_3_(e,page,level_1,level_2,start_button,loading_page_sign), width= 210, height= 60)
 
 
-        start_button = ft.ElevatedButton(text="Habilitar", on_click=lambda e: e_catalog.button_clicked(e,page,plus_button_from_time, minus_button_from_time,text_field_time,plus_button_from_intensity, minus_button_from_intensity, text_field_intensity,warning_comunication_lost,loading_page_sign), width= 150, height= 60, disabled= True)
+        start_button = ft.ElevatedButton(text="Habilitar", on_click=lambda e: e_catalog.button_clicked(e,page,plus_button_from_time, minus_button_from_time,text_field_time,plus_button_from_intensity, minus_button_from_intensity, text_field_intensity,warning_comunication_lost,loading_page_sign,Time_counting), width= 150, height= 60, disabled= True)
         text_checking_for_button = ft.Text("Estatus de la terapia", color="red800",theme_style=ft.TextThemeStyle.BODY_LARGE, weight=ft.FontWeight.W_700)
         warning_comunication_lost = ft.Text (value="",color="red800",weight=ft.FontWeight.W_900, theme_style=ft.TextThemeStyle.BODY_LARGE)
+        Time_counting = ft.Text (value="",color="red800",weight=ft.FontWeight.W_900, theme_style=ft.TextThemeStyle.BODY_LARGE)
         loading_page_sign = ft.ProgressRing(value= 0, width=20, height=20, stroke_width = 2)
 
         content_cards = {'card_1': [
@@ -66,6 +67,10 @@ def some_cards(page, count):
                         )
                         ],
                         'card_2': [
+                             ft.Row(
+                            [Time_counting],
+                            alignment=ft.MainAxisAlignment.CENTER
+                        ),
                             ft.Row(
                             [text_checking_for_button],
                             alignment=ft.MainAxisAlignment.CENTER

@@ -1,6 +1,8 @@
 import flet as ft
 import time
 from src.utils.script_communication import communication
+import threading
+import asyncio
 
 class EventCatalog:
     def __init__(self):
@@ -20,6 +22,20 @@ class EventCatalog:
         self.check_start = False
         self.warning_comunication_lost=None
         self.loading_page_sign = None
+        self.threat_state = None
+        self.level_1 = None
+        self.level_2 = None
+        self.level_3 = None
+        self.text_field_intensity = None
+        self.text_field_time = None
+        self.finalization_button = None
+        self.modify_button = None
+        
+        
+    def set_buttons_from_home_page(self,modify_button,finalization_button):
+        self.finalization_button = finalization_button
+        self.modify_button = modify_button
+           
     
     def field_time_keyboard(self,e):
         None
@@ -27,10 +43,12 @@ class EventCatalog:
     def close_keyboard(self,e):
         None
 
-    def button_clicked(self,e,page,plus_button_from_time, minus_button_from_time,text_field_time,plus_button_from_intensity, minus_button_from_intensity, text_field_intensity,warning_comunication_lost,loading_page_sign):
+    def button_clicked(self,e,page,plus_button_from_time, minus_button_from_time,text_field_time,plus_button_from_intensity, minus_button_from_intensity, text_field_intensity,warning_comunication_lost,loading_page_sign,Time_counting):
         self.start_button = e.control
         self.warning_comunication_lost = warning_comunication_lost
         self.loading_page_sign = loading_page_sign
+        self.Time_counting = Time_counting
+        count_thread = threading.Thread(target=self.count__, args=(page,))
         
         if (self.check_start == False):
             print("Habilitado")
@@ -42,6 +60,7 @@ class EventCatalog:
             page.update()
             self.check_start = True
         elif (self.check_start == True):
+            self.threat_state = "stop"
             self.disable_all_buttons(page,True,"no_level")
             print("Deshabilitado")
             self.loading_page_sign.value = None
@@ -57,6 +76,9 @@ class EventCatalog:
             
         if(self.start_button.text == "Deshabilitar"):
             self.disable_all_buttons(page,True,"no_level")
+            self.threat_state = "count"
+            count_thread.start()
+            
         self.send_time(page, plus_button_from_time, minus_button_from_time,text_field_time,e.control,warning_comunication_lost)
         self.send_intensity(page, plus_button_from_intensity, minus_button_from_intensity,text_field_intensity,e.control,warning_comunication_lost)
         time.sleep(3)
@@ -83,6 +105,23 @@ class EventCatalog:
         
         self.start_button.disabled = boolian
         page.update()
+        
+    def count__(self,page):
+        start_time = 20
+        for i in range(start_time,-1,-1):
+            self.Time_counting.value= str(i)
+            time.sleep(1)
+            page.update()
+            if(i == 0):
+                print("Warning: time finish")
+            elif(self.threat_state == "stop"):
+                break
+                
+        self.Time_counting.value= ""
+            
+        
+        
+        
         
     def minus_click(self,e,page,change_value_time,Select_increment_mode,plus_button_from_time, max):
         self.count += 1
@@ -370,10 +409,7 @@ class EventCatalog:
             None
             
             
-    def confirm_button_from_information_page(self,e,page,information_window,fieldtext_doctor,fieldtext_patient,fieldtext_age_patient,fieldtext_weight_patient,finalization_button,modify_button):
-        self.finalization_button = finalization_button
-        self.modify_button = modify_button
-        self.information_window = information_window
+    def confirm_button_from_information_page(self,e,page,fieldtext_doctor,fieldtext_patient,fieldtext_age_patient,fieldtext_weight_patient):
         fieldtext_doctor.value = self.doctor_name
         fieldtext_patient.value =self.patient_name
         fieldtext_age_patient.value = self.patient_age
@@ -383,15 +419,10 @@ class EventCatalog:
         print(self.patient_weight)
         print(self.doctor_name)
         page.update()
-        page.close(self.information_window)
+        page.go("/home")
         
     def modify_information_function(self,e,page):
-        if(self.information_window != None):
-            page.open(self.information_window)
-            page.update()
-        else:
-            None
-        self.restart_some_variables_to_disable_start_button(page)
+       page.go("/")
         
     def save_patient_name(self,e,confirm_button,page):
         self.patient_name = e.control.value
@@ -473,15 +504,21 @@ class EventCatalog:
         
     
     def finish_test(self,e,page):
-        self.patient_name_value.value = None
-        self.patient_age_value.value = None
-        self.patient_weight_value.value = None
-        self.doctor_value.value = None
-        page.open(self.information_window)
         try:
             self.level_1.disabled = False #Aquí se mandará al arduino a desactivar bobina 1
             self.level_2.disabled = False #Aquí se mandará al arduino a desactivar bobina 2
             self.level_3.disabled = False #Aquí se mandará al arduino a desactivar bobina 3
+        except AttributeError:
+            print ("warning: sent without test")
+        try:
+            self.patient_name_value.value = None
+            self.patient_age_value.value = None
+            self.patient_weight_value.value = None
+            self.doctor_value.value = None
+        except:
+            print ("warning: sent without test")
+        
+        try:
             self.text_field_time.value = "1" #Se le mandará este valor al arduino
             self.text_field_intensity.value = "1" #Se le mandará este valor al arduino
             self.plus_button_from_intensity.disabled = False
@@ -490,20 +527,37 @@ class EventCatalog:
             self.minus_button_from_time.disabled = False
             self.check_for_send_intensity = False
             self.check_for_send_time = False 
-            self.check_level_1 = False
-            self.check_level_2 = False
-            self.check_level_3 = False
+        except AttributeError:
+             print ("warning: sent without test")
+             
+        self.check_level_1 = False
+        self.check_level_2 = False
+        self.check_level_3 = False
+        try:
             self.start_button.disabled = True
             self.start_button.text = "Habilitar"
-            communication.Stop_test("Stop test",self.warning_comunication_lost)
-            page.update()
+        except AttributeError:
+            print ("warning: sent without test")
+            
+        communication.Stop_test("Stop test",self.warning_comunication_lost)
+        page.update()
+        
+        try:
             self.text_field_time.disabled = False #Se le mandará este valor al arduino
             self.text_field_intensity.disabled = False #Se le mandará este valor al arduino
+        except AttributeError:
+            print ("warning: sent without test")
+            
+        try: 
             self.check_start = False
-            communication.restart_arduino("Restart arduino")
-        except:
-            None
+        except AttributeError:
+            print ("warning: sent without test")
+            
+            
+        communication.restart_arduino("Restart arduino")
+       
         page.update()
+        page.go("/")
         
         
     

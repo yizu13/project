@@ -13,18 +13,19 @@ class page_home_class:
         
     
 
-    def main_button(self,page):
-        self.text_name_patient = ft.Text(theme_style=ft.TextThemeStyle.BODY_LARGE)
-        self.text_name_doctor = ft.Text(theme_style=ft.TextThemeStyle.BODY_LARGE)
-        self.text_age_patient = ft.Text(theme_style=ft.TextThemeStyle.BODY_LARGE)
-        self.text_weight_patient = ft.Text(theme_style=ft.TextThemeStyle.BODY_LARGE)
+    def main_button(self,page,parts):
+        self.text_name_patient = ft.Text(value=e_catalog.patient_name,theme_style=ft.TextThemeStyle.BODY_LARGE)
+        self.text_name_doctor = ft.Text(value=e_catalog.doctor_name,theme_style=ft.TextThemeStyle.BODY_LARGE)
+        self.text_age_patient = ft.Text(value=e_catalog.patient_age,theme_style=ft.TextThemeStyle.BODY_LARGE)
+        self.text_weight_patient = ft.Text(value=e_catalog.patient_weight,theme_style=ft.TextThemeStyle.BODY_LARGE)
         self.modify_button = ft.TextButton(text="Modificar", on_click=lambda e: e_catalog.modify_information_function(e,page))
         self.finalization_button = ft.ElevatedButton(text="Finalizar Terapia",on_click=lambda e:e_catalog.finish_test(e,page))
         # Add controls to the page
-        col = ft.Column([ft.Row(controls=some_cards(page, 3))],
+        e_catalog.set_buttons_from_home_page(self.modify_button,self.finalization_button)
+        self.col = ft.Column([ft.Row(controls=some_cards(page, 3))],
                         alignment= ft.MainAxisAlignment.CENTER )
         
-        col_1 = ft.Column   ([ ft.Row([ft.Text(value= "Paciente:", color="blue800",theme_style=ft.TextThemeStyle.BODY_LARGE, weight=ft.FontWeight.W_700),self.text_name_patient]),
+        self.col_1 = ft.Column   ([ ft.Row([ft.Text(value= "Paciente:", color="blue800",theme_style=ft.TextThemeStyle.BODY_LARGE, weight=ft.FontWeight.W_700),self.text_name_patient]),
                                 ft.Row([ft.Text(value= "Edad del paciente:",color="blue800",theme_style=ft.TextThemeStyle.BODY_LARGE, weight=ft.FontWeight.W_700), self.text_age_patient]),
                                 ft.Row([ft.Text(value= "Peso del paciente:",color="blue800",theme_style=ft.TextThemeStyle.BODY_LARGE, weight=ft.FontWeight.W_700), self.text_weight_patient]),
                                 ft.Row([ft.Text(value= "Doctor:",color="blue800",theme_style=ft.TextThemeStyle.BODY_LARGE, weight=ft.FontWeight.W_700), self.text_name_doctor]),
@@ -32,8 +33,10 @@ class page_home_class:
                             ],
                         alignment= ft.MainAxisAlignment.END)
         
-        
-        page.add(col, col_1)
+        if (parts == "cards"):
+            return self.col
+        elif(parts == "content"):
+            return self.col_1
 
 
 page_home_class_ = page_home_class()
