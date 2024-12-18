@@ -21,14 +21,13 @@ def main(page: ft.Page):
         page.window.width = 800
         page.window.height= 480
         
-        
         def route_change(route):
             page.views.clear()
             page.views.append(
                 ft.View(
                     "/",
                     [
-                    ft.AppBar(title=ft.Text("Informaciones importantes"), bgcolor='BLUE'),
+                    ft.AppBar(title=ft.Text(value="Informaciones importantes",color='white'), bgcolor='blue800', leading=ft.Icon('PERM_DEVICE_INFORMATION_ROUNDED',color='white')),
                        test_information(page)
                     ],
                 )
