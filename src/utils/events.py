@@ -43,12 +43,14 @@ class EventCatalog:
     def close_keyboard(self,e):
         None
 
-    def button_clicked(self,e,page,plus_button_from_time, minus_button_from_time,text_field_time,plus_button_from_intensity, minus_button_from_intensity, text_field_intensity,warning_comunication_lost,loading_page_sign,Time_counting):
+    def button_clicked(self,e,page,plus_button_from_time, minus_button_from_time,text_field_time,plus_button_from_intensity, minus_button_from_intensity, text_field_intensity,warning_comunication_lost,loading_page_sign,Time_counting,warning_icon,warning_message):
         self.start_button = e.control
         self.warning_comunication_lost = warning_comunication_lost
         self.loading_page_sign = loading_page_sign
         self.Time_counting = Time_counting
-        count_thread = threading.Thread(target=self.count__, args=(page,))
+        self.warning_icon = warning_icon
+        self.warning_message = warning_message
+        self.count_thread = threading.Thread(target=self.count__, args=(page,))
         
         if (self.check_start == False):
             print("Habilitado")
@@ -77,13 +79,15 @@ class EventCatalog:
         if(self.start_button.text == "Deshabilitar"):
             self.disable_all_buttons(page,True,"no_level")
             self.threat_state = "count"
-            count_thread.start()
             
         self.send_time(page, plus_button_from_time, minus_button_from_time,text_field_time,e.control,warning_comunication_lost)
         self.send_intensity(page, plus_button_from_intensity, minus_button_from_intensity,text_field_intensity,e.control,warning_comunication_lost)
         time.sleep(3)
         self.loading_page_sign.value = 0
         self.disable_all_buttons(page,False,"no_level")
+
+        if(self.start_button.text == "Deshabilitar"):
+            self.count_thread.start()
         
         
 
@@ -107,17 +111,22 @@ class EventCatalog:
         page.update()
         
     def count__(self,page):
-        start_time = 20
+        start_time = 15
         for i in range(start_time,-1,-1):
             self.Time_counting.value= str(i)
-            time.sleep(1)
+            self.warning_icon.name = 'WARNING_ROUNDED'
+            time.sleep(1.2)
             page.update()
             if(i == 0):
+                self.warning_message.value = "¡Tiempo excedido!"
+                self.warning_message.update()
                 print("Warning: time finish")
             elif(self.threat_state == "stop"):
                 break
                 
         self.Time_counting.value= ""
+        self.warning_icon.name = ''
+        self.warning_message.value = ""
             
         
         

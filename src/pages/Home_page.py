@@ -18,8 +18,8 @@ class page_home_class:
         self.text_name_doctor = ft.Text(value=e_catalog.doctor_name,theme_style=ft.TextThemeStyle.BODY_LARGE)
         self.text_age_patient = ft.Text(value=e_catalog.patient_age,theme_style=ft.TextThemeStyle.BODY_LARGE)
         self.text_weight_patient = ft.Text(value=e_catalog.patient_weight,theme_style=ft.TextThemeStyle.BODY_LARGE)
-        self.modify_button = ft.TextButton(text="Modificar", on_click=lambda e: e_catalog.modify_information_function(e,page))
-        self.finalization_button = ft.ElevatedButton(text="Finalizar Terapia",on_click=lambda e:e_catalog.finish_test(e,page))
+        self.modify_button = ft.TextButton(text="Modificar", on_click=lambda e: e_catalog.modify_information_function(e,page),icon='MODE')
+        self.finalization_button = ft.ElevatedButton(text="Finalizar Terapia",on_click=lambda e:e_catalog.finish_test(e,page),icon='SEND')
         # Add controls to the page
         e_catalog.set_buttons_from_home_page(self.modify_button,self.finalization_button)
         self.col = ft.Column([ft.Row(controls=some_cards(page, 3))],
