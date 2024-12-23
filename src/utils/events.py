@@ -118,7 +118,7 @@ class EventCatalog:
             time.sleep(1.2)
             page.update()
             if(i == 0):
-                self.warning_message.value = "¡Tiempo excedido!"
+                self.warning_message.value = "¡Tiempo prolongado!"
                 self.warning_message.update()
                 print("Warning: time finish")
             elif(self.threat_state == "stop"):
