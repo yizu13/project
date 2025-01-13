@@ -16,8 +16,7 @@ def main(page: ft.Page):
         page.window.always_on_top = False
         page.theme_mode = ft.ThemeMode.LIGHT
 
-        page.window.max_width = 800
-        page.window.max_height= 480
+    
         page.window.width = 800
         page.window.height= 480
         
